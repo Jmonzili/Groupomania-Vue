@@ -21,6 +21,8 @@ export default {
             <button type="button" class="btn btn-primary mt-2 ms-auto">Publier</button>
         </div>
 
+        <hr class="dropdown-divider" />
+
         <hr class="dropdown-divider">
         Pouet
     </div>
