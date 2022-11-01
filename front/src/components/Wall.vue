@@ -1,6 +1,8 @@
 <script>
+import Card from './Card.vue';
 export default {
-    name: "Wall"
+    name: "Wall",
+    components: { Card }
 }
 </script>
 <template>
@@ -21,10 +23,11 @@ export default {
             <button type="button" class="btn btn-primary mt-2 ms-auto">Publier</button>
         </div>
 
-        <hr class="dropdown-divider" />
-
-        <hr class="dropdown-divider">
-        Pouet
+        <hr class="mt-4" />
+        
+        <Card />
+        <Card />
+        <Card />
     </div>
 </template>
 <style>
@@ -32,11 +35,15 @@ input {
     display: none;
 }
 
-hr {
+/* body {
+    background-color: #f5f5f51a !important;
+} */
+
+/* .dropdown-divider-2 {
   margin: 1rem 0;
   color: inherit;
   background-color: currentColor;
   border: 0;
   opacity: 0.25;
-}
+} */
 </style>

@@ -48,10 +48,6 @@ export default {
 
 html,
 body {
-  height: 100%;
-}
-
-body {
   align-items: center;
   padding-bottom: 40px;
   background-color: #f5f5f5;
