@@ -1,9 +1,9 @@
 <script>
-import Card from './Card.vue';
+import Card from '../../components/ui/card/Card.vue';
 import PostForm from './PostForm.vue';
 
 export default {
-    name: "Wall",
+    name: "WallPage",
     components: { Card, PostForm }
 }
 </script>
