@@ -18,11 +18,15 @@ export default {
           <!-- /Breadcrumb -->
     
           <div class="row gutters-sm">
-            <div class="col-md-4 mb-3">
-              <div class="card">
+            <div class="card col-md-12 mb-3">
                 <div class="card-body">
                   <div class="d-flex flex-column align-items-center text-center">
-                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
+                    <img 
+                      src="https://bootdey.com/img/Content/avatar/avatar7.png" 
+                      alt="Admin" 
+                      class="rounded-circle" 
+                      width="150"
+                    />
                     <div class="mt-3">
                       <h4>John Doe</h4>
                       <p class="text-secondary mb-1">Full Stack Developer</p>
@@ -32,8 +36,9 @@ export default {
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="card mt-3">
+            </div>
+            <div class="d-flex flex-column flex-md-row gap-3">
+              <div class="card col-md-4">
                 <ul class="list-group list-group-flush">
                   <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                     <h6 class="mb-0">
@@ -72,9 +77,8 @@ export default {
                   </li>
                 </ul>
               </div>
-            </div>
-            <div class="col-md-8">
-              <div class="card mb-3">
+              <div class="card col-md-8">
+                <div class="mb-3">
                 <div class="card-body">
                   <div class="row">
                     <div class="col-sm-3">
@@ -127,13 +131,14 @@ export default {
                     </div>
                   </div>
                 </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
     </div>
 </template>
-<style>
+<style scoped>
 body{
     margin-top:20px;
     color: #1a202c;
@@ -174,6 +179,7 @@ body{
     padding-right: 8px;
     padding-left: 8px;
 }
+
 .mb-3, .my-3 {
     margin-bottom: 1rem!important;
 }
@@ -181,10 +187,54 @@ body{
 .bg-gray-300 {
     background-color: #e2e8f0;
 }
+
 .h-100 {
     height: 100%!important;
 }
+
 .shadow-none {
     box-shadow: none!important;
+}
+
+.row.gutters-sm > * {
+  padding: 0;
+}
+
+:root {
+  --gap: 5rem;
+}
+
+.row.gutters-sm > .d-flex {
+  --gap: 5rem;
+  gap: var(--gap) !important;
+}
+
+.row.gutters-sm > .d-flex.gap-1 {
+  --gap: 0.25rem;
+}
+
+.row.gutters-sm > .d-flex.gap-2 {
+  --gap: 0.5rem;
+}
+
+.row.gutters-sm > .d-flex.gap-3 {
+  --gap: 1rem;
+}
+
+.row.gutters-sm > .d-flex.gap-4 {
+  --gap: 2rem;
+}
+
+.row.gutters-sm > .d-flex.gap-5 {
+  --gap: 4rem;
+}
+
+@media (min-width: 768px) {
+  .card.col-md-4 {
+    width: calc(33.33333333% - var(--gap) / 2);
+  }
+  .card.col-md-8 {
+    width: calc(66.66666667% - var(--gap) / 2);
+  }
 }
 </style>
