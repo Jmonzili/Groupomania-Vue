@@ -9,7 +9,7 @@ const routes = [
   { path: '/login', component: LoginPage },
   { path: '/home', component: WallPage },
   { path: '/profile', component: ProfilePage },
-  { path: '/editprofile', component: EditProfile },
+  { path: '/edit-profile', component: EditProfile },
 ];
 
 //  Création de l'instance de routes

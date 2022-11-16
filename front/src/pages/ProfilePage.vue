@@ -10,8 +10,8 @@ export default {
           <!-- Breadcrumb -->
           <nav aria-label="breadcrumb" class="main-breadcrumb">
             <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-              <li class="breadcrumb-item"><a href="javascript:void(0)">User</a></li>
+              <li class="breadcrumb-item"><router-link to="/home">Home</router-link></li>
+              <li class="breadcrumb-item"><router-link to="/profile">User</router-link></li>
               <li class="breadcrumb-item active" aria-current="page">User Profile</li>
             </ol>
           </nav>
@@ -22,8 +22,8 @@ export default {
                 <div class="card-body">
                   <div class="d-flex flex-column align-items-center text-center">
                     <img 
-                      src="https://bootdey.com/img/Content/avatar/avatar7.png" 
-                      alt="Admin" 
+                      src="https://mdbcdn.b-cdn.net/img/new/avatars/1.webp" 
+                      alt="Avatar" 
                       class="rounded-circle" 
                       width="150"
                     />
