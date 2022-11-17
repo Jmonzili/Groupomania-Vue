@@ -23,8 +23,8 @@ export default {
         </form>
 
         <div class="text-end">
-          <button type="button" class="btn btn-outline-dark me-2">Login</button>
-          <button type="button" class="btn btn-primary">Sign-up</button>
+          <button type="button" class="btn btn-outline-dark me-2">Logout</button>
+          <button type="button" class="btn btn-primary">Login</button>
         </div>
       </div>
     </div>

@@ -17,7 +17,7 @@ export default {
                     <label for="file-input">
                         <i class="bi bi-camera-fill"></i>
                     </label>
-                    <input id="file-input" type="file" />
+                    <input id="file-input" class="d-none" type="file" />
                 </div>
                 <div class="row mb-3">
                     <div class="col-sm-3">

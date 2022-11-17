@@ -31,7 +31,9 @@ export default {
                       <h4>John Doe</h4>
                       <p class="text-secondary mb-1">Full Stack Developer</p>
                       <p class="text-muted font-size-sm">Bay Area, San Francisco, CA</p>
-                      <button class="btn btn-primary">Follow</button>
+                      <router-link to="/edit-profile">
+                        <button class="btn btn-primary">Édit</button>
+                      </router-link>
                       <button class="btn btn-outline-primary">Message</button>
                     </div>
                   </div>
@@ -41,37 +43,34 @@ export default {
               <div class="card col-md-4">
                 <ul class="list-group list-group-flush">
                   <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                    <h6 class="mb-0">
-                        <img src="../assets/svg/world.svg" alt="">
-                        Website
+                    <img src="../assets/svg/world.svg" alt="">
+                    <h6 class="mb-0 me-auto ms-3">
+                      Website
                     </h6>
                     <span class="text-secondary">https://bootdey.com</span>
                   </li>
                   <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                    <h6 class="mb-0">
-                        <img src="../assets/svg/github.svg" alt="">
-                        Github
+                    <img src="../assets/svg/github.svg" alt="" />
+                    <h6 class="mb-0 me-auto ms-3">                      Github
                     </h6>
                     <span class="text-secondary">bootdey</span>
                   </li>
                   <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                    <h6 class="mb-0">
-                        <img src="../assets/svg/twitter.svg" alt="">
-                        Twitter
+                    <img src="../assets/svg/twitter.svg" alt="" />
+                    <h6 class="mb-0 me-auto ms-3">                      Twitter
                     </h6>
                     <span class="text-secondary">@bootdey</span>
                   </li>
                   <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                    <h6 class="mb-0">
-                        <img src="../assets/svg/instagram.svg" alt="">
-                        Instagram
+                    <img src="../assets/svg/instagram.svg" alt="" />
+                    <h6 class="mb-0 me-auto ms-3">                      Instagram
                     </h6>
                     <span class="text-secondary">bootdey</span>
                   </li>
                   <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                    <h6 class="mb-0">
-                        <img src="../assets/svg/facebook.svg" class="text-info" alt="">
-                        Facebook
+                    <img src="../assets/svg/facebook.svg" class="text-info" alt="" />
+                    <h6 class="mb-0 me-auto ms-3">
+                      Facebook
                     </h6>
                     <span class="text-secondary">bootdey</span>
                   </li>
@@ -183,6 +182,11 @@ body{
 .mb-3, .my-3 {
     margin-bottom: 1rem!important;
 }
+
+/* ul h6 {
+  margin-right: auto;
+  margin-left: 1rem;
+} */
 
 .bg-gray-300 {
     background-color: #e2e8f0;
