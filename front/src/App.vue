@@ -1,12 +1,10 @@
 <script>
-import LoginPage from "./pages/LoginPage.vue"
 import AppNavbar from "./components/Layout/AppNavbar.vue"
 
 export default {
   name: "App",
   components: {
-    AppNavbar,
-    LoginPage
+    AppNavbar
   }
 }
 </script>
@@ -17,5 +15,11 @@ export default {
 </template>
 
 <style>
+html {
+  padding: 0;
+}
 
+body {
+  height: 100vh;
+}
 </style>

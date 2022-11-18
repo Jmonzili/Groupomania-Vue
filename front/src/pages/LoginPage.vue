@@ -1,53 +1,69 @@
 <script>
+const methods = {
+  checkCredentials: function (event) {
+    console.log("event:", event)
+    console.log(this.username, this.password)
+  }
+}
+
 export default {
   name: "LoginPage",
-  // data() {
-  //   return {
-  //     username: "",
-  //     password: "",
-  //     error: ""
-  //   }
-  // },
-  // methods: {
-  //   login() {
-  //     if (this.username === "admin" && this.password === "admin") {
-  //       this.$router.push("/")
-  //     } else {
-  //       this.error = "Invalid credentials"
-  //     }
-  //   }
-  // }
+  data,
+  methods,
+}
+
+function data() {
+  return {
+    username: "adresse@gmail.com",
+    password: "aaa111",
+    // error: ""
+  }
 }
 </script>
 <template>
-    <main class="form-signin w-100 m-auto ">
-  <form >
-    <img class="mb-4 d-block mx-auto" src="../../public/favicon.ico" alt="" width="72" height="57">
-    <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+  <main class="form-signin w-100 m-auto ">
+    <form >
+      <img 
+        class="mb-4 d-block mx-auto" 
+        src="../../public/favicon.ico" 
+        alt="" 
+        width="72" height="57"
+      />
+      <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
-    <div class="form-floating">
-      <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-      <label for="floatingInput">Email address</label>
-    </div>
-    <div class="form-floating">
-      <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
-      <label for="floatingPassword">Password</label>
-    </div>
+      <div class="form-floating">
+        <input 
+          type="email" 
+          class="form-control" 
+          id="floatingInput" 
+          placeholder="name@example.com"
+          v-model="username"
+        />
+        <label for="floatingInput">Email address</label>
+      </div>
+      <div class="form-floating">
+        <input 
+          type="password"
+          class="form-control"
+          id="floatingPassword"
+          placeholder="Password"
+          v-model="password"
+        />
+        <label for="floatingPassword">Password</label>
+      </div>
 
-    <!-- <div class="checkbox mb-3">
-      <label>
-        <input type="checkbox" value="remember-me"> Remember me
-      </label>
-    </div> -->
-    <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
-    <p class="mt-5 mb-3 text-muted">&copy; 2017–2022</p>
-  </form>
-</main>
+      <button class="w-100 btn btn-lg btn-primary" type="submit" @click.prevent="checkCredentials">
+        Sign in
+      </button>
+      <p class="mt-5 mb-3 text-muted">User: {{ username }}</p>
+      <p class="mt-5 mb-3 text-muted">Password: {{ password }}</p>
+    </form>
+  </main>
 </template>
+
 <style>
 
-html,
-body {
+html, body {
   align-items: center;
   padding-bottom: 40px;
   background-color: #f5f5f5;
