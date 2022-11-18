@@ -1,22 +1,32 @@
 <script>
-const methods = {
-  checkCredentials: function (event) {
-    console.log("event:", event)
-    console.log(this.username, this.password)
-  }
+// const methods = {
+//   checkCredentials: function (event) {
+//     console.log("event:", event)
+//     console.log(this.username, this.password)
+//   }
+// }
+function checkCredentials(email, password) {
+  console.log({ email, password })
+
+  if (email !== "adresse@gmail.com") throw new Error("Invalid email")
+  if (password !== "aaa111") throw new Error("Invalid password")
+
+  const token = "my JWT token"
+  localStorage.setItem("token", token)
 }
 
 export default {
   name: "LoginPage",
   data,
-  methods,
+  methods: {
+    checkCredentials
+  }
 }
 
 function data() {
   return {
     username: "adresse@gmail.com",
     password: "aaa111",
-    // error: ""
   }
 }
 </script>
@@ -52,7 +62,7 @@ function data() {
         <label for="floatingPassword">Password</label>
       </div>
 
-      <button class="w-100 btn btn-lg btn-primary" type="submit" @click.prevent="checkCredentials">
+      <button class="w-100 btn btn-lg btn-primary" type="submit" @click.prevent="() => checkCredentials(this.username, this.password)">
         Sign in
       </button>
       <p class="mt-5 mb-3 text-muted">User: {{ username }}</p>
