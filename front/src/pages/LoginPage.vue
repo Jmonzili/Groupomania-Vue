@@ -4,35 +4,58 @@
 //     console.log("event:", event)
 //     console.log(this.username, this.password)
 //   }
+
+import { watch } from 'vue'
+
 // }
 function checkCredentials(email, password) {
   console.log({ email, password })
-
+//  
   if (email !== "adresse@gmail.com") throw new Error("Invalid email")
   if (password !== "aaa111") throw new Error("Invalid password")
 
   const token = "my JWT token"
   localStorage.setItem("token", token)
+
+//  Renvoi vers la page /home apres authentification
+  this.$router.push("/home")
 }
 
 export default {
   name: "LoginPage",
   data,
   methods: {
-    checkCredentials
+    checkCredentials,
+    isFormValid
+  },
+  watch: {
+    username(value) {
+      const isvalueEmpty = value === ""
+      this.isFormValid(!isvalueEmpty)
+    },
+    password(value) {
+      const isvalueEmpty = value === ""
+      this.isFormValid(!isvalueEmpty)
+    }
   }
+}
+
+function isFormValid(bool) {
+  console.log("form is valid:", bool)
+  this.hasInvalidCredentials = !bool
 }
 
 function data() {
   return {
     username: "adresse@gmail.com",
     password: "aaa111",
+    hasInvalidCredentials: false
   }
 }
 </script>
 <template>
   <main class="form-signin w-100 m-auto ">
-    <form >
+    <form :class="this.hasInvalidCredentials ? 'hasErrors' : ''">
       <img 
         class="mb-4 d-block mx-auto" 
         src="../../public/favicon.ico" 
@@ -48,6 +71,8 @@ function data() {
           id="floatingInput" 
           placeholder="name@example.com"
           v-model="username"
+          required
+          @invalid="isFormValid"
         />
         <label for="floatingInput">Email address</label>
       </div>
@@ -58,11 +83,19 @@ function data() {
           id="floatingPassword"
           placeholder="Password"
           v-model="password"
+          required
+          @invalid="isFormValid"
         />
         <label for="floatingPassword">Password</label>
       </div>
+      <span v-if="hasInvalidCredentials" class="error-msg">Veuillez remplir tous les champs</span>
 
-      <button class="w-100 btn btn-lg btn-primary" type="submit" @click.prevent="() => checkCredentials(this.username, this.password)">
+      <button 
+        class="w-100 btn btn-lg btn-primary" 
+        type="submit" 
+        @click.prevent="() => checkCredentials(this.username, this.password)"
+        :disabled="hasInvalidCredentials"
+      >
         Sign in
       </button>
       <p class="mt-5 mb-3 text-muted">User: {{ username }}</p>
@@ -71,7 +104,14 @@ function data() {
   </main>
 </template>
 
-<style>
+<style scoped>
+.hasErrors input {
+  border: 1px solid red;
+}
+
+.error-msg {
+  color: red;
+}
 
 html, body {
   align-items: center;

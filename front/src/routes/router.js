@@ -26,8 +26,9 @@ router.beforeEach((to, from) => {
 
 //  Controle si le user est connecté
 function isLoginRequired(to) {
-  if (isPrivatePage(to) && !isTokenInCache()) return true;
-  if (isPrivatePage(to) && !isTokenValid()) return true;
+  if (!isPrivatePage(to)) return false;
+  if (!isTokenInCache()) return true;
+  if (!isTokenValid()) return true;
   return false;
 }
 
@@ -37,7 +38,7 @@ function isPrivatePage(to) {
   return !publicPages.includes(to.path);
 }
 
-//  Vérifie si il ya un token
+//  Vérifie si il ya un token dans le cache
 function isTokenInCache(to) {
   return localStorage.getItem('token') != null;
 }
