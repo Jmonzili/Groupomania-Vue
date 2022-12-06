@@ -1,45 +1,58 @@
 <script>
-// const methods = {
-//   checkCredentials: function (event) {
-//     console.log("event:", event)
-//     console.log(this.username, this.password)
-//   }
+function submitForm(email, password, router) {
+  const { VITE_SERVER_ADRESS, VITE_SERVER_PORT } = import.meta.env
+  const url = `http://${VITE_SERVER_ADRESS}:${VITE_SERVER_PORT}/auth/login`
 
-import { watch } from 'vue'
-
-// }
-function checkCredentials(email, password) {
-  console.log({ email, password })
-//  
-  if (email !== "adresse@gmail.com") throw new Error("Invalid email")
-  if (password !== "aaa111") throw new Error("Invalid password")
-
-  const token = "my JWT token"
-  localStorage.setItem("token", token)
-
-//  Renvoi vers la page /home apres authentification
-  this.$router.push("/home")
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ email, password })
+  }
+  fetch(url, options)
+  .then((res) => {
+    if (res.ok) return res.json()
+    res.text().then((err) => {
+      const { error } = JSON.parse(err)
+      this.error = error
+      throw new Error(error)
+    })
+  })
+  .then((res) => {
+    const token = res.token
+    //  Stockage du token 
+    localStorage.setItem("token", token)
+    //  Renvoi vers la page /home apres authentification
+    this.$router.push("/home")
+  })
+  .catch((err) => {
+    console.error(err)
+  })
 }
 
 export default {
   name: "LoginPage",
   data,
   methods: {
-    checkCredentials,
+    submitForm,
     isFormValid
   },
   watch: {
     username(value) {
       const isvalueEmpty = value === ""
       this.isFormValid(!isvalueEmpty)
+      this.error = null
     },
     password(value) {
       const isvalueEmpty = value === ""
       this.isFormValid(!isvalueEmpty)
+      this.error = null
     }
   }
 }
 
+//  Vérifie si le formulaire n'est pas vide
 function isFormValid(bool) {
   console.log("form is valid:", bool)
   this.hasInvalidCredentials = !bool
@@ -47,9 +60,10 @@ function isFormValid(bool) {
 
 function data() {
   return {
-    username: "adresse@gmail.com",
-    password: "aaa111",
-    hasInvalidCredentials: false
+    username: "adresse1@gmail.com",
+    password: "123456",
+    hasInvalidCredentials: false,
+    error: null
   }
 }
 </script>
@@ -89,11 +103,12 @@ function data() {
         <label for="floatingPassword">Password</label>
       </div>
       <span v-if="hasInvalidCredentials" class="error-msg">Veuillez remplir tous les champs</span>
+      <span v-if="error" class="error-msg">{{ error }}</span>
 
       <button 
         class="w-100 btn btn-lg btn-primary" 
         type="submit" 
-        @click.prevent="() => checkCredentials(this.username, this.password)"
+        @click.prevent="() => submitForm(this.username, this.password, this.$router)"
         :disabled="hasInvalidCredentials"
       >
         Sign in

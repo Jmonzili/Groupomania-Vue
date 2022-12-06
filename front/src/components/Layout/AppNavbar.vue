@@ -1,8 +1,25 @@
 <script>
 import Logo from "../ui/Logo.vue"
 export default {
-    name: "AppNavbar",
-    components: { Logo }
+  name: "AppNavbar",
+  components: { Logo },
+  data() {
+    return {
+      isLoggedIn: false
+    }
+  },
+  created() {
+    const token = localStorage.getItem("token")
+    if (token != null) {
+      this.isLoggedIn = true
+    }
+  },
+  methods: {
+    logOut() {
+      localStorage.removeItem("token")
+      this.$router.push("/login")
+    }
+  }
 }
 </script>
 <template>
@@ -15,7 +32,6 @@ export default {
 
         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
           <li><router-link to="/home" class="nav-link px-2 text-secondary">Home</router-link></li>
-          <li><router-link to="/profile" class="nav-link px-2 text-dark">Profile</router-link></li>
         </ul>
 
         <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
@@ -23,8 +39,10 @@ export default {
         </form>
 
         <div class="text-end">
-          <button type="button" class="btn btn-outline-dark me-2">Logout</button>
-          <button type="button" class="btn btn-primary">Login</button>
+          <button @click="logOut" v-if="this.isLoggedIn" type="button" class="btn btn-outline-dark me-2">
+            Logout
+          </button>
+          <button v-if="!this.isLoggedIn" type="button" class="btn btn-primary">Login</button>
         </div>
       </div>
     </div>

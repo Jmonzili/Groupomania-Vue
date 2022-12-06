@@ -1,7 +1,5 @@
 import LoginPage from '../pages/LoginPage.vue';
 import WallPage from '../pages/Wall/WallPage.vue';
-import ProfilePage from '../pages/ProfilePage.vue';
-import EditProfile from '../pages/EditProfile.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 
 //  Création des routes
@@ -9,8 +7,6 @@ const routes = [
   { path: '/login', component: LoginPage },
   { path: '/signup', component: LoginPage },
   { path: '/home', component: WallPage },
-  { path: '/profile', component: ProfilePage },
-  { path: '/edit-profile', component: EditProfile },
 ];
 
 //  Création de l'instance de routes
@@ -28,7 +24,6 @@ router.beforeEach((to, from) => {
 function isLoginRequired(to) {
   if (!isPrivatePage(to)) return false;
   if (!isTokenInCache()) return true;
-  if (!isTokenValid()) return true;
   return false;
 }
 
@@ -43,10 +38,10 @@ function isTokenInCache(to) {
   return localStorage.getItem('token') != null;
 }
 
-//  Vérifie si le token est valid
-function isTokenValid() {
-  const token = localStorage.getItem('token');
-  return token === 'my JWT token';
-}
+// //  Vérifie si le token est valid
+// function isTokenValid() {
+//   const token = localStorage.getItem('token');
+//   return token === 'my JWT token';
+// }
 
 export { router };

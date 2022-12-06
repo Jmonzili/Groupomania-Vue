@@ -1,0 +1,15 @@
+const jwt = require('jsonwebtoken');
+
+function authenticateUser(req, res, next) {
+  const token = req.headers.authorization.split(' ')[1];
+  if (token == null) return res.status(401).send({ error: 'Missing token' });
+
+  jwt.verify(token, process.env.SECRET, (error, decoded) => {
+    console.log({ decoded });
+    if (error) return res.status(401).send({ error: 'Invalid token' });
+    req.email = decoded.email;
+    next();
+  });
+}
+
+module.exports = { authenticateUser };
