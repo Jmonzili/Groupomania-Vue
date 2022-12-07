@@ -4,23 +4,27 @@ import Comment from './Comment.vue';
 
 export default {
     name: "Card",
-    components: { Comment, Avatar }
+    components: { Comment, Avatar },
+    props: ["email", "title", "content", "url", "comments"]
 }
 </script>
 <template>
     <div class="card mb-3 m-auto">
         <div class="card-header bg-white">
-            <img src="https://mdbcdn.b-cdn.net/img/new/avatars/1.webp" class="rounded-circle "
-            alt="Avatar" />
-            Vazy Joky
+            <img 
+                src="../../../assets/img/pngfind.com-placeholder-png-6104451.png" 
+                class="rounded-circle me-2"
+                alt="Avatar"
+            />
+            <span>{{ email }}</span>
         </div>
-        <img src="https://picsum.photos/400/300" class="card-img-top" alt="...">
+        <img v-if="url" :src="url" class="card-img-top" alt="...">
         <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-            <Comment></Comment>
-            <Comment></Comment>
+            <h5 class="card-title">{{ title }}</h5>
+            <p class="card-text">{{ content }}</p>
+            <div v-for="comment in comments">
+                <Comment :email="comment.user" :content="comment.content"></Comment>
+            </div>
             <div class="d-flex gap-2">
                 <Avatar></Avatar>
                 <input type="text" class="form-control" placeholder="Commentaire" aria-label="Commentaire">
@@ -29,7 +33,7 @@ export default {
         </div>
     </div>
 </template>
-<style>
+<style scoped>
 
 @media (min-width: 768px){
     .card {

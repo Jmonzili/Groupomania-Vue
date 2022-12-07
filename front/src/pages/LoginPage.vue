@@ -60,7 +60,7 @@ function isFormValid(bool) {
 
 function data() {
   return {
-    username: "adresse1@gmail.com",
+    username: "test1@gmail.com",
     password: "123456",
     hasInvalidCredentials: false,
     error: null

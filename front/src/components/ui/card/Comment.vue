@@ -3,16 +3,26 @@ import Avatar from '../Avatar.vue';
 
 export default {
     name: "Comment",
-    components: { Avatar }
+    components: { Avatar },
+    props: {
+        email: {
+            type: String,
+            required: true
+        },
+        content: {
+            type: String,
+            required: true
+        }
+    }
 }
 </script>
 
 <template>
     <div class="d-flex gap-2">
         <Avatar></Avatar>
-        <div class="d-flex flex-column comment_text p-1">
-            <p>Sylvie Market</p>
-            <p>Wouah c'est super beau !</p>
+        <div class="d-flex flex-column comment_text p-1 mb-1">
+            <p>{{ email }}</p>
+            <p>{{ content }}</p>
         </div>
         
     </div>
