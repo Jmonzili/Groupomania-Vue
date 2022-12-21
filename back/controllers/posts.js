@@ -42,6 +42,7 @@ function getPosts(req, res) {
 function createPosts(req, res) {
   const content = req.body.content;
   console.log('content:', req.body);
+  console.log('content-file:', req.file);
   const email = req.email;
   const post = { content, user: email, comments: [] };
   posts.unshift(post);

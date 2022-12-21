@@ -1,26 +1,33 @@
 <script>
 export default {
     name: "PostForm",
-    data: function () {
+    data() {
         return {
-            content: ""
+            content: "",
+            selectedImage : null
         }
     },
     methods: {
+        onFileSelected(e) {
+    //  Renvoi du ficher dans la data "image"
+            this.selectedImage = e.target.files[0]
+            console.log("this.selectedImage:", this.selectedImage)
+        },
         handleClick() {
             const { VITE_SERVER_ADRESS, VITE_SERVER_PORT } = import.meta.env
         const url = `http://${VITE_SERVER_ADRESS}:${VITE_SERVER_PORT}/posts`
         
+        const formData = new FormData()
+        formData.append("content", this.content)
+        formData.append("image", this.selectedImage)
         const options = {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
-                "Content-Type": "application/json",
+                // "Content-Type": "multipart/form-data",
                 "Accept": "application/json"
             },
             method: "POST",
-            body: JSON.stringify({
-                content: this.content
-            })
+            body: formData
         }
 
         fetch(url, options)
@@ -32,7 +39,7 @@ export default {
             }
           })
           .then(() => {
-            this.$router.go()
+            // this.$router.go()
           })
           .catch((err) => console.log("err:", err))
         }
@@ -47,7 +54,8 @@ export default {
 
     <div class="d-flex">
         <label for="file-input" class="btn btn-secondary mt-2">Ajouter un image</label>
-        <input id="file-input" class="d-none" type="file" />
+        <span v-if="selectedImage" class="ms-2 m-auto">{{ selectedImage.name }}</span>
+        <input id="file-input" class="d-none" type="file" @change="onFileSelected" />
         <button @click="handleClick" type="button" class="btn btn-primary mt-2 ms-auto">Publier</button>
     </div>
 
