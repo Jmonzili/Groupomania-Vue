@@ -48,7 +48,14 @@ export default {
     <div v-if="email" class="container-sm">
         <PostForm></PostForm>
         <div v-for="post in posts">
-            <Card :email="post.user" :title="post.title" :content="post.content" :url="post.url" :comments="post.comments"></Card>
+            <Card 
+                :email="post.user" 
+                :title="post.title" 
+                :content="post.content" 
+                :url="post.imageUrl" 
+                :comments="post.comments"
+            >
+            </Card>
         </div>
     </div>
 </template>

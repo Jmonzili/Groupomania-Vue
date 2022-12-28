@@ -1,4 +1,5 @@
 <script>
+import { getUrlAndHeaders } from "../../services/fetchOptions"
 export default {
     name: "PostForm",
     data() {
@@ -14,34 +15,28 @@ export default {
             console.log("this.selectedImage:", this.selectedImage)
         },
         handleClick() {
-            const { VITE_SERVER_ADRESS, VITE_SERVER_PORT } = import.meta.env
-        const url = `http://${VITE_SERVER_ADRESS}:${VITE_SERVER_PORT}/posts`
-        
-        const formData = new FormData()
-        formData.append("content", this.content)
-        formData.append("image", this.selectedImage)
-        const options = {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
-                // "Content-Type": "multipart/form-data",
-                "Accept": "application/json"
-            },
-            method: "POST",
-            body: formData
-        }
-
-        fetch(url, options)
-          .then((res) => {
-            if (res.status === 200) {
-                return res.json()
-            } else {
-                throw new Error("Failed to fetch posts")
+            const { url, headers } = getUrlAndHeaders()
+            const formData = new FormData()
+            formData.append("content", this.content)
+            formData.append("image", this.selectedImage)
+            const options = {
+                headers,
+                method: "POST",
+                body: formData
             }
-          })
-          .then(() => {
-            // this.$router.go()
-          })
-          .catch((err) => console.log("err:", err))
+
+            fetch(url, options)
+              .then((res) => {
+                    if (res.status === 200) {
+                        return res.json()
+                    } else {
+                        throw new Error("Failed to fetch posts")
+                    }
+              })
+              .then(() => {
+                this.$router.go()
+              })
+              .catch((err) => console.log("err:", err))
         }
     }
 }

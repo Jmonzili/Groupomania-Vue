@@ -11,6 +11,8 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.use('/posts', postRouter);
+app.use('/uploads', express.static('uploads'));
+
 app.post('/auth/login', logUser);
 app.post('/auth/signup', signupUser);
 

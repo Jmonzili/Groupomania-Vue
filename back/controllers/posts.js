@@ -12,7 +12,7 @@ const post1 = {
   user: 'test1@gmail.com',
   title: 'my first post',
   content: 'This is my first post',
-  url: 'https://picsum.photos/400/300',
+  imageUrl: 'https://picsum.photos/400/300',
   comments: [comment2, comment1],
 };
 
@@ -20,7 +20,7 @@ const post2 = {
   user: 'test2@gmail.com',
   title: 'my second post',
   content: 'This is my second post',
-  url: 'https://picsum.photos/400/300',
+  imageUrl: 'https://picsum.photos/400/300',
   comments: [],
 };
 
@@ -28,7 +28,7 @@ const post3 = {
   user: 'test3@gmail.com',
   title: 'my third post',
   content: 'This is my third post',
-  url: 'https://picsum.photos/400/300',
+  imageUrl: 'https://picsum.photos/400/300',
   comments: [comment1],
 };
 
@@ -41,12 +41,28 @@ function getPosts(req, res) {
 
 function createPosts(req, res) {
   const content = req.body.content;
-  console.log('content:', req.body);
-  console.log('content-file:', req.file);
+  const hasImage = req.file != null;
+
+  const url = hasImage ? createImageUrl(req) : null;
   const email = req.email;
-  const post = { content, user: email, comments: [] };
+  const post = {
+    content,
+    user: email,
+    comments: [],
+    imageUrl: url,
+    id: posts.length + 1,
+  };
+  console.log({ post });
+  console.log({ url });
   posts.unshift(post);
   res.send({ post });
+}
+
+function createImageUrl(req) {
+  let pathToImage = req.file.path;
+  const protocol = req.protocol;
+  const host = req.get('host');
+  return `${protocol}://${host}/${pathToImage}`;
 }
 
 module.exports = { getPosts, createPosts };
