@@ -1,11 +1,13 @@
 const comment1 = {
   user: 'test2@gmmail.com',
   content: 'This is my comment',
+  id: '1',
 };
 
 const comment2 = {
   user: 'test3@gmmail.com',
   content: 'This is my comment',
+  id: '2',
 };
 
 const post1 = {
@@ -14,6 +16,7 @@ const post1 = {
   content: 'This is my first post',
   imageUrl: 'https://picsum.photos/400/300',
   comments: [comment2, comment1],
+  id: '1',
 };
 
 const post2 = {
@@ -22,6 +25,7 @@ const post2 = {
   content: 'This is my second post',
   imageUrl: 'https://picsum.photos/400/300',
   comments: [],
+  id: '2',
 };
 
 const post3 = {
@@ -30,6 +34,7 @@ const post3 = {
   content: 'This is my third post',
   imageUrl: 'https://picsum.photos/400/300',
   comments: [comment1],
+  id: '3',
 };
 
 const posts = [post1, post2, post3];
@@ -65,4 +70,18 @@ function createImageUrl(req) {
   return `${protocol}://${host}/${pathToImage}`;
 }
 
-module.exports = { getPosts, createPosts };
+function createComment(req, res) {
+  const postId = req.params.id;
+  const post = posts.find((post) => post.id === postId);
+  // post.comments.push(comment);
+
+  const id =
+    Math.random().toString(36).substring(2, 15) +
+    Math.random().toString(36).substring(2, 15);
+  const user = req.email;
+  const commentToSend = { id, user, content: req.body.comment };
+  console.log({ commentToSend });
+  res.send({ post });
+}
+
+module.exports = { getPosts, createPosts, createComment };

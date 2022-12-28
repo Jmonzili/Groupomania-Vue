@@ -1,11 +1,43 @@
 <script>
 import Avatar from '../Avatar.vue';
 import Comment from './Comment.vue';
+import { getUrlAndHeaders } from "../../../services/fetchOptions"
 
 export default {
     name: "Card",
     components: { Comment, Avatar },
-    props: ["email", "title", "content", "url", "comments"]
+    props: ["email", "title", "content", "url", "comments", "id"],
+    data() {
+        return {
+            currentComment: null
+        }
+    },
+    mounted() {},
+    methods: {
+        addComment(e) {
+            console.log("this.currentComment:", this.currentComment)
+            console.log("id:", this.$props.id)
+            const { url, headers } = getUrlAndHeaders()
+            fetch(url + "/" + this.$props.id, {
+                headers: { ...headers },
+                method: "POST",
+                body: JSON.stringify({
+                    comment: this.currentComment
+                })
+            })
+              .then((res) => {
+                if (res.status === 200) {
+                    return res.json()
+                } else {
+                    throw new Error("Failed to fetch post")
+                }
+              })
+              .then((res) => {
+                console.log("res:", res)
+              })
+              .catch((err) => console.log({ err }))
+        }
+    }
 }
 </script>
 <template>
@@ -27,8 +59,16 @@ export default {
             </div>
             <div class="d-flex gap-2">
                 <Avatar></Avatar>
-                <input type="text" class="form-control" placeholder="Commentaire" aria-label="Commentaire">
-                <button type="button" class="btn btn-primary rounded-pill ms-auto">Comment</button>
+                <input 
+                    type="text" 
+                    class="form-control" 
+                    placeholder="Commentaire" 
+                    aria-label="Commentaire"
+                    v-model="currentComment"
+                />
+                <button type="button" class="btn btn-primary rounded-pill ms-auto" @click="addComment">
+                    Comment
+                </button>
             </div>
         </div>
     </div>
