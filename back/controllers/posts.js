@@ -73,7 +73,6 @@ function createImageUrl(req) {
 function createComment(req, res) {
   const postId = req.params.id;
   const post = posts.find((post) => post.id === postId);
-  // post.comments.push(comment);
 
   const id =
     Math.random().toString(36).substring(2, 15) +
@@ -81,6 +80,7 @@ function createComment(req, res) {
   const user = req.email;
   const commentToSend = { id, user, content: req.body.comment };
   console.log({ commentToSend });
+  post.comments.push(commentToSend);
   res.send({ post });
 }
 

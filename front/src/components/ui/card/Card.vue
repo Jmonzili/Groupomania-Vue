@@ -18,13 +18,15 @@ export default {
             console.log("this.currentComment:", this.currentComment)
             console.log("id:", this.$props.id)
             const { url, headers } = getUrlAndHeaders()
-            fetch(url + "/" + this.$props.id, {
-                headers: { ...headers },
+            const options = {
+                headers: { ...headers, "Content-Type": "application/json" },
                 method: "POST",
                 body: JSON.stringify({
                     comment: this.currentComment
                 })
-            })
+            }
+            console.log("options:", options)
+            fetch(url + "/" + this.$props.id, options)
               .then((res) => {
                 if (res.status === 200) {
                     return res.json()
@@ -34,6 +36,7 @@ export default {
               })
               .then((res) => {
                 console.log("res:", res)
+                this.$router.go()
               })
               .catch((err) => console.log({ err }))
         }
