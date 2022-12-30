@@ -47,6 +47,7 @@ export default {
 <template>
     <div v-if="email" class="container-sm">
         <PostForm></PostForm>
+        <div v-if="posts.length === 0">Aucun posts sur le Wall. Soyez le premier a partager avec votre communauté !</div>
         <div v-for="post in posts">
             <Card 
                 :email="post.user" 

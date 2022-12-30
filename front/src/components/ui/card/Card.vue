@@ -2,6 +2,7 @@
 import Avatar from '../Avatar.vue';
 import Comment from './Comment.vue';
 import { getUrlAndHeaders } from "../../../services/fetchOptions"
+const { url, headers } = getUrlAndHeaders()
 
 export default {
     name: "Card",
@@ -17,7 +18,6 @@ export default {
         addComment(e) {
             console.log("this.currentComment:", this.currentComment)
             console.log("id:", this.$props.id)
-            const { url, headers } = getUrlAndHeaders()
             const options = {
                 headers: { ...headers, "Content-Type": "application/json" },
                 method: "POST",
@@ -39,19 +39,39 @@ export default {
                 this.$router.go()
               })
               .catch((err) => console.log({ err }))
+        },
+        deletePost(e) {
+            console.log("adresse to send delete post:", url + "/" + this.$props.id)
+            fetch(url + "/" + this.$props.id, {
+                headers: { ...headers, "Content-Type": "application/json" },
+                method: "DELETE"
+            })
+              .then((res) => {
+                if (res.status === 200) {
+                    return res.json()
+                } else {
+                    throw new Error("failed to delete post")
+                }
+              })
+              .then((res) => {
+                console.log("res delete:", res)
+                this.$router.go()
+              })
+              .catch((err) => console.log({ err }))
         }
     }
 }
 </script>
 <template>
     <div class="card mb-3 m-auto">
-        <div class="card-header bg-white">
+        <div class="card-header bg-white d-flex align-items-center gap-3">
             <img 
                 src="../../../assets/img/pngfind.com-placeholder-png-6104451.png" 
                 class="rounded-circle me-2"
                 alt="Avatar"
             />
             <span>{{ email }}</span>
+            <i class="bi bi-trash" @click="deletePost"></i>
         </div>
         <img v-if="url" :src="url" class="card-img-top" alt="...">
         <div class="card-body">
@@ -85,5 +105,15 @@ export default {
 }
 .card-header img {
     width: 50px;
+}
+.bi-trash {
+    margin-left: auto;
+    font-size: 1.4rem;
+}
+
+.bi-trash:hover {
+    cursor: pointer;
+    color: rgb(193, 57, 57);
+    transform: scale(1.1);
 }
 </style>

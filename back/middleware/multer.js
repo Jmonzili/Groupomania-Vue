@@ -30,7 +30,6 @@ const storage = multer.diskStorage({
 
 // Création du nom de l'image ajouté
 function makeFileName(req, file) {
-  console.log({ file });
   const fileName = `${Date.now()}-${file.originalname}`;
   file.filename = fileName;
   return fileName;

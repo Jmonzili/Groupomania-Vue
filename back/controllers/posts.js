@@ -55,10 +55,8 @@ function createPosts(req, res) {
     user: email,
     comments: [],
     imageUrl: url,
-    id: posts.length + 1,
+    id: String(posts.length + 1),
   };
-  console.log({ post });
-  console.log({ url });
   posts.unshift(post);
   res.send({ post });
 }
@@ -74,14 +72,33 @@ function createComment(req, res) {
   const postId = req.params.id;
   const post = posts.find((post) => post.id === postId);
 
+  if (post == null) {
+    return res.status(404).send({ error: 'Post not found !' });
+  }
+
   const id =
     Math.random().toString(36).substring(2, 15) +
     Math.random().toString(36).substring(2, 15);
   const user = req.email;
   const commentToSend = { id, user, content: req.body.comment };
-  console.log({ commentToSend });
   post.comments.push(commentToSend);
   res.send({ post });
 }
 
-module.exports = { getPosts, createPosts, createComment };
+function deletePost(req, res) {
+  const postId = req.params.id;
+  const post = posts.find((post) => post.id === postId);
+  if (post == null) {
+    return res.status(404).send({ error: 'Post not found' });
+  }
+  const index = posts.indexOf(post);
+  posts.splice(index, 1);
+  deleteComments(post);
+  res.send({ message: `Post ${postId} was deleted`, posts });
+}
+
+function deleteComments(post) {
+  post.comments = [];
+}
+
+module.exports = { getPosts, createPosts, deletePost, createComment };
