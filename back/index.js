@@ -9,7 +9,11 @@ const { postRouter } = require('./routes/posts.js');
 
 app.use(cors());
 app.use(bodyParser.json());
-// app.use(express.urlencoded({ extended: true }));
+
+//  Connexion database via Prisma
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
+const allUsers = prisma.user.findMany().then(console.log).catch(console.error);
 
 app.use('/posts', postRouter);
 app.use('/uploads', express.static('uploads'));
