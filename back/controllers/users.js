@@ -1,24 +1,22 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const { users } = require('../db/db.js');
-const { PrismaClient } = require('@prisma/client');
-const prisma = new PrismaClient();
-const allUsers = prisma.user.findMany().then(console.log).catch(console.error);
+const { prisma } = require('../db/db.js');
 
 //  Connection d'utilisateur
-function logUser(req, res) {
+async function logUser(req, res) {
   const { email, password } = req.body;
-  const user = getUser(email);
-  if (user == null) return res.status(404).send({ error: 'User not found' });
+  try {
+    const user = await getUser(email);
+    if (user == null) return res.status(404).send({ error: 'User not found' });
 
-  checkPassword(user, password)
-    .then((isPasswordCorrect) => {
-      if (!isPasswordCorrect)
-        return res.status(401).send({ error: 'Wrong password' });
-      const token = makeToken(email);
-      res.send({ token: token, email: user.email });
-    })
-    .catch((error) => res.status(500).send({ error }));
+    const isPasswordCorrect = await checkPassword(user, password);
+    if (!isPasswordCorrect)
+      return res.status(401).send({ error: 'Wrong password' });
+    const token = makeToken(email);
+    res.send({ token: token, email: user.email });
+  } catch (error) {
+    res.status(500).send({ error });
+  }
 }
 
 function makeToken(email) {
@@ -26,24 +24,29 @@ function makeToken(email) {
 }
 
 function getUser(email) {
-  return users.find((user) => user.email === email);
+  return prisma.user.findUnique({ where: { email } });
+  // return users.find((user) => user.email === email);
 }
 
 function checkPassword(user, password) {
   return bcrypt.compare(password, user.password);
 }
 
-function signupUser(req, res) {
+async function signupUser(req, res) {
   const { email, password, confirmPassword } = req.body;
-  if (password !== confirmPassword)
-    return res.status(400).send({ error: "Passwords don't match" });
-  const user = getUser(email);
-  if (user != null)
-    return res.status(400).send({ error: 'User already exists' });
-  hashedPassword(password)
-    .then((hash) => saveUser({ email, password: hash }))
-    .then((user) => res.send({ user }))
-    .catch((error) => res.status(500).send({ error }));
+  try {
+    if (password !== confirmPassword)
+      return res.status(400).send({ error: "Passwords don't match" });
+    const userInDb = await getUser(email);
+    if (userInDb != null)
+      return res.status(400).send({ error: 'User already exists' });
+
+    const hash = await hashedPassword(password);
+    const user = await saveUser({ email, password: hash });
+    res.send({ user });
+  } catch (error) {
+    res.status(500).send({ error });
+  }
 }
 
 function saveUser(user) {

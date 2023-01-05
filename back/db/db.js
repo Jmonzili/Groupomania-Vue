@@ -6,4 +6,7 @@ const user2 = { email: 'test2@gmail.com', password: fakeMdp };
 const user3 = { email: 'test3@gmail.com', password: fakeMdp };
 const users = [user1, user2, user3];
 
-module.exports = { users };
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
+
+module.exports = { users, prisma };

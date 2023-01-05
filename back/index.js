@@ -6,14 +6,13 @@ const bodyParser = require('body-parser');
 const { logUser, signupUser } = require('./controllers/users.js');
 const cors = require('cors');
 const { postRouter } = require('./routes/posts.js');
+const { prisma } = require('./db/db.js');
 
 app.use(cors());
 app.use(bodyParser.json());
 
 //  Users Database
-// const { PrismaClient } = require('@prisma/client');
-// const prisma = new PrismaClient();
-// const allUsers = prisma.user.findMany().then(console.log).catch(console.error);
+const users = prisma.post.findMany().then(console.log).catch(console.error);
 
 app.use('/posts', postRouter);
 app.use('/uploads', express.static('uploads'));
