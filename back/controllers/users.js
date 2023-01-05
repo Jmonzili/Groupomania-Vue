@@ -1,6 +1,9 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { users } = require('../db/db.js');
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
+const allUsers = prisma.user.findMany().then(console.log).catch(console.error);
 
 //  Connection d'utilisateur
 function logUser(req, res) {
@@ -38,15 +41,13 @@ function signupUser(req, res) {
   if (user != null)
     return res.status(400).send({ error: 'User already exists' });
   hashedPassword(password)
-    .then((hash) => {
-      saveUser({ email, password: hash });
-      res.send({ email: email });
-    })
+    .then((hash) => saveUser({ email, password: hash }))
+    .then((user) => res.send({ user }))
     .catch((error) => res.status(500).send({ error }));
 }
 
 function saveUser(user) {
-  users.push(user);
+  return prisma.user.create({ data: user });
 }
 
 function hashedPassword(password) {
