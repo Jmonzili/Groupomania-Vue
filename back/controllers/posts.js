@@ -46,29 +46,32 @@ function getPosts(req, res) {
   res.send({ posts, email });
 }
 
-function createPosts(req, res) {
+async function createPosts(req, res) {
   const content = req.body.content;
-  const hasImage = req.file != null;
-
-  const url = hasImage ? createImageUrl(req) : null;
   const email = req.email;
-  const post = {
-    content,
-    user: email,
-    comments: [],
-    imageUrl: url,
-    id: String(posts.length + 1),
-  };
-  prisma.post.create({ data: post }).then((post) => console.log(post));
-  // posts.unshift(post);
-  // res.send({ post });
+
+  try {
+    const user = await prisma.user.findUnique({ where: { email } });
+    const userId = user.id;
+    const post = { content, userId };
+    addImageUrl(req, post);
+
+    const newPost = await prisma.post.create({ data: post });
+    console.log('newPost:', newPost);
+    res.send({ post: newPost });
+  } catch (err) {
+    res.status(500).send({ error: err });
+  }
 }
 
-function createImageUrl(req) {
+function addImageUrl(req, post) {
+  const hasImage = req.file != null;
+  if (!hasImage) return;
   let pathToImage = req.file.path;
   const protocol = req.protocol;
   const host = req.get('host');
-  return `${protocol}://${host}/${pathToImage}`;
+  const url = `${protocol}://${host}/${pathToImage}`;
+  post.imageUrl = url;
 }
 
 function createComment(req, res) {
