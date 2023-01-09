@@ -7,7 +7,7 @@ const { url, headers } = getUrlAndHeaders()
 export default {
     name: "Card",
     components: { Comment, Avatar },
-    props: ["email", "title", "content", "url", "comments", "id"],
+    props: ["email", "content", "url", "comments", "id"],
     data() {
         return {
             currentComment: null
@@ -75,7 +75,7 @@ export default {
         </div>
         <img v-if="url" :src="url" class="card-img-top" alt="...">
         <div class="card-body">
-            <h5 class="card-title">{{ title }}</h5>
+            <!-- <h5 class="card-title">{{ title }}</h5> -->
             <p class="card-text">{{ content }}</p>
             <div v-for="comment in comments">
                 <Comment :email="comment.user" :content="comment.content"></Comment>

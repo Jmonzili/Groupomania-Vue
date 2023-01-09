@@ -50,8 +50,7 @@ export default {
         <div v-if="posts.length === 0">Aucun posts sur le Wall. Soyez le premier a partager avec votre communauté !</div>
         <div v-for="post in posts">
             <Card 
-                :email="post.user" 
-                :title="post.title" 
+                :email="post.user.email" 
                 :content="post.content" 
                 :url="post.imageUrl" 
                 :comments="post.comments"

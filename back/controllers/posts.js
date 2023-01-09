@@ -41,8 +41,21 @@ const post3 = {
 
 const posts = [post1, post2, post3];
 
-function getPosts(req, res) {
+async function getPosts(req, res) {
   const email = req.email;
+  const posts = await prisma.post.findMany({
+    include: {
+      comments: true,
+      user: {
+        select: {
+          email: true,
+        },
+      },
+    },
+    orderBy: {
+      createdAt: 'desc',
+    },
+  });
   res.send({ posts, email });
 }
 
