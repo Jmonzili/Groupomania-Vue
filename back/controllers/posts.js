@@ -45,7 +45,18 @@ async function getPosts(req, res) {
   const email = req.email;
   const posts = await prisma.post.findMany({
     include: {
-      comments: true,
+      comments: {
+        include: {
+          user: {
+            select: {
+              email: true,
+            },
+          },
+        },
+        orderBy: {
+          createdAt: 'asc',
+        },
+      },
       user: {
         select: {
           email: true,
@@ -87,21 +98,29 @@ function addImageUrl(req, post) {
   post.imageUrl = url;
 }
 
-function createComment(req, res) {
-  const postId = req.params.id;
-  const post = posts.find((post) => post.id === postId);
-
+async function createComment(req, res) {
+  const postId = Number(req.params.id);
+  // const post = posts.find((post) => post.id === postId);
+  const post = await prisma.post.findUnique({
+    where: { id: postId },
+    include: {
+      user: {
+        select: {
+          id: true,
+        },
+      },
+    },
+  });
+  console.log('post tcheck:', post);
   if (post == null) {
     return res.status(404).send({ error: 'Post not found !' });
   }
 
-  const id =
-    Math.random().toString(36).substring(2, 15) +
-    Math.random().toString(36).substring(2, 15);
-  const user = req.email;
-  const commentToSend = { id, user, content: req.body.comment };
-  post.comments.push(commentToSend);
-  res.send({ post });
+  const userId = post.user.id;
+
+  const commentToSend = { userId, postId, content: req.body.comment };
+  const comment = await prisma.comment.create({ data: commentToSend });
+  res.send({ comment });
 }
 
 function deletePost(req, res) {
@@ -121,3 +140,26 @@ function deleteComments(post) {
 }
 
 module.exports = { getPosts, createPosts, deletePost, createComment };
+
+// async function createComment(req, res) {
+//   const postId = Number(req.params.id);
+//   const post = await prisma.post.findUnique({
+//     where: { id: postId },
+//     include: {
+//       user: {
+//         select: {
+//           id: true,
+//         },
+//       },
+//     },
+//   });
+//   console.log('post commenter:', post);
+//   if (post == null) {
+//     return res.status(404).send({ error: 'Post not found !' });
+//   }
+
+//   const userId = req.email;
+//   // const commentToSend = { userId, postId, content: req.body.comment };
+//   // post.comments.push(commentToSend);
+//   // res.send({ post });
+// }

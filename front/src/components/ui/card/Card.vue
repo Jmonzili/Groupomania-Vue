@@ -78,7 +78,7 @@ export default {
             <!-- <h5 class="card-title">{{ title }}</h5> -->
             <p class="card-text">{{ content }}</p>
             <div v-for="comment in comments">
-                <Comment :email="comment.user" :content="comment.content"></Comment>
+                <Comment :email="comment.user.email" :content="comment.content"></Comment>
             </div>
             <div class="d-flex gap-2">
                 <Avatar></Avatar>
