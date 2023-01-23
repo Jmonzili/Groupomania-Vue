@@ -7,7 +7,7 @@ const { url, headers } = getUrlAndHeaders()
 export default {
     name: "Card",
     components: { Comment, Avatar },
-    props: ["email", "content", "url", "comments", "id"],
+    props: ["email", "content", "url", "comments", "id", "currentUser"],
     data() {
         return {
             currentComment: null
@@ -71,7 +71,7 @@ export default {
                 alt="Avatar"
             />
             <span>{{ email }}</span>
-            <i class="bi bi-trash" @click="deletePost"></i>
+            <i v-if="currentUser === email" class="bi bi-trash" @click="deletePost"></i>
         </div>
         <img v-if="url" :src="url" class="card-img-top" alt="...">
         <div class="card-body">

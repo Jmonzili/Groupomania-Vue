@@ -43,7 +43,7 @@ export default {
 </script>
 
 <template>
-    <div class="form-floating mt-4">
+    <div class="form-floating mt-3">
         <input class="form-control py-3" v-model="content" />
     </div>
 

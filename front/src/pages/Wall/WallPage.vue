@@ -32,24 +32,28 @@ export default {
           .then((res) => {
             const { email, posts } = res
             this.posts = posts
-            this.email = email
+            this.currentUser = email
           })
           .catch((err) => console.log("err:", err))
     },
     data() {
         return {
             posts: [],
-            email: null
+            currentUser: null
         }
     }
 }
 </script>
 <template>
-    <div v-if="email" class="container-sm">
+    <div v-if="currentUser" class="container-sm">
+        <div class="col-sm-12">
+            <h1 class="text-center fs-5 mt-2">Bienvenue, {{ currentUser }}</h1>
+        </div>
         <PostForm></PostForm>
         <div v-if="posts.length === 0">Aucun posts sur le Wall. Soyez le premier a partager avec votre communauté !</div>
         <div v-for="post in posts">
             <Card 
+                :currentUser="currentUser"
                 :email="post.user.email" 
                 :content="post.content" 
                 :url="post.imageUrl" 
